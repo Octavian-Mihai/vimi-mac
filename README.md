@@ -14,6 +14,40 @@ This is a **native menubar app**, not a browser extension. There is no Dock icon
 - **Insert mode** — typing in a text field is passed through; `Esc` returns to normal
 - **Per-app toggle** — disable Vimium Mac in the frontmost app from the menu bar
 
+## Keybindings
+
+Normal mode (no text field focused):
+
+| Keys | Action |
+|------|--------|
+| `h` `j` `k` `l` | Scroll left / down / up / right |
+| `J` `K` | Full page down / up |
+| `d` `u` | Half-page down / up |
+| `gg` `G` | Top / bottom (`⌘↑` / `⌘↓`) |
+| `H` `L` | Back / forward (`⌘[` / `⌘]`) |
+| `r` | Reload (`⌘R`) |
+| `f` | Hints — click |
+| `F` | Hints — ⌘-click |
+| `yf` | Hints — copy URL or title |
+| `i` | Insert mode (pass keys through) |
+| `Esc` | Leave hints or insert |
+| `5j` | Repeat a scroll command |
+
+Focused text fields enter insert automatically. `Esc` stays in normal until focus changes or you press `i`.
+
+Global pause: **⌃⌥⇧V**, or **Pause Vimium Mac** in the menu.
+
+## Where it runs
+
+**On by default:** Safari, Firefox, Chrome, Arc, Brave, Edge, Discord, Finder, Preview, Mail, Notes, System Settings, and most other apps.
+
+**Off by default** (so those apps keep their own keys):
+
+- Terminal, iTerm, Alacritty, Kitty, Warp, WezTerm
+- VS Code, Cursor, JetBrains, MacVim, TextMate
+
+Enable or disable the frontmost app from the menu bar.
+
 ## Install from source
 
 Requires **macOS 13+**, **Xcode 15+**, and [XcodeGen](https://github.com/yonaskolb/XcodeGen):
@@ -61,39 +95,6 @@ If the extra is missing, check the menu bar overflow (`»`). Closing the window 
 
 If keys are not captured after Accessibility is on, also enable Vimium Mac under Privacy & Security → **Input Monitoring**.
 
-## Keybindings
-
-Normal mode (no text field focused):
-
-| Keys | Action |
-|------|--------|
-| `h` `j` `k` `l` | Scroll left / down / up / right |
-| `J` `K` | Full page down / up |
-| `d` `u` | Half-page down / up |
-| `gg` `G` | Top / bottom (`⌘↑` / `⌘↓`) |
-| `H` `L` | Back / forward (`⌘[` / `⌘]`) |
-| `r` | Reload (`⌘R`) |
-| `f` | Hints — click |
-| `F` | Hints — ⌘-click |
-| `yf` | Hints — copy URL or title |
-| `i` | Insert mode (pass keys through) |
-| `Esc` | Leave hints or insert |
-| `5j` | Repeat a scroll command |
-
-Focused text fields enter insert automatically. `Esc` stays in normal until focus changes or you press `i`.
-
-Global pause: **⌃⌥⇧V**, or **Pause Vimium Mac** in the menu.
-
-## Where it runs
-
-**On by default:** Safari, Firefox, Chrome, Arc, Brave, Edge, Discord, Finder, Preview, Mail, Notes, System Settings, and most other apps.
-
-**Off by default** (so those apps keep their own keys):
-
-- Terminal, iTerm, Alacritty, Kitty, Warp, WezTerm
-- VS Code, Cursor, JetBrains, MacVim, TextMate
-
-Enable or disable the frontmost app from the menu bar.
 
 ## Limitations
 
