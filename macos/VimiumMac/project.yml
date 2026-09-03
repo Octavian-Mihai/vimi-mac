@@ -1,0 +1,59 @@
+name: VimiumMac
+options:
+  bundleIdPrefix: com.vimium
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: false
+  createEmptyDirectories: false
+settings:
+  base:
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
+    ENABLE_APP_SANDBOX: NO
+    COMBINE_HIDPI_IMAGES: YES
+    ALWAYS_SEARCH_USER_PATHS: NO
+    CLANG_ENABLE_MODULES: YES
+    CLANG_ENABLE_OBJC_ARC: YES
+targets:
+  VimiumMac:
+    type: application
+    platform: macOS
+    scheme: {}
+    sources:
+      - path: Sources
+        type: group
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vimium.VimiumMac
+        PRODUCT_NAME: VimiumMac
+        INFOPLIST_FILE: Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: VimiumMac.entitlements
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+        OTHER_LDFLAGS: ["-framework", "AppKit", "-framework", "ApplicationServices", "-framework", "Carbon", "-framework", "ServiceManagement", "-framework", "CoreGraphics"]
+        SWIFT_OBJC_BRIDGING_HEADER: ""
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        ENABLE_APP_SANDBOX: NO
+    info:
+      path: Info.plist
+      properties:
+        CFBundleName: VimiumMac
+        CFBundleDisplayName: Vimium Mac
+        CFBundleIdentifier: com.vimium.VimiumMac
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "1.0.0"
+        CFBundlePackageType: APPL
+        CFBundleExecutable: VimiumMac
+        LSMinimumSystemVersion: "13.0"
+        LSUIElement: true
+        NSHighResolutionCapable: true
+        NSSupportsAutomaticTermination: false
+        NSSupportsSuddenTermination: false
+        NSPrincipalClass: NSApplication
+        NSAccessibilityUsageDescription: Vimium Mac needs Accessibility permission to see keys before other apps, detect text fields, find buttons and links, and click them — the same idea as the Vimium browser extension, but for every Mac app.
