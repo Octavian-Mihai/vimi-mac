@@ -6,6 +6,11 @@ Hint labels, Vim-style scrolling, and back/forward work in **Finder, Safari, Fir
 
 This is a **native menubar app**, not a browser extension. There is no Dock icon. After launch, look for a keyboard extra on the right side of the menu bar.
 
+![Hint mode in Finder: pressing `f` labels every clickable control with a two-letter badge](docs/hint-mode-mockup.png)
+![Hint mode in Safari: labels appear over links, buttons, and bookmarks](docs/hint-mode-safari-mockup.png)
+
+*Simulated illustration of hint mode (pressing `f`) in Finder and Safari — labels appear over clickable controls in the frontmost app. Not an actual screen capture.*
+
 ## Features
 
 - **Hints** (`f`) — label clickable controls and activate one from the keyboard
