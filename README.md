@@ -11,6 +11,33 @@ This is a **native menubar app**, not a browser extension. There is no Dock icon
 
 *Simulated illustration of hint mode (pressing `f`) in Finder and Safari — labels appear over clickable controls in the frontmost app. Not an actual screen capture.*
 
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Main[main.swift / AppDelegate] --> Engine[VimiumEngine<br/>mode state machine]
+    Main --> Status[StatusItemController]
+    Main --> Win[MainWindowController]
+    Main --> Perm[Permissions<br/>Accessibility · Input Monitoring]
+
+    Tap[EventTap<br/>global key events] --> Engine
+    Focus[FocusWatcher<br/>frontmost app + text focus] --> Engine
+    Excl[AppExclusions] --> Engine
+    Engine --> Map[KeyMapper]
+    Map --> Act[Actions<br/>scroll · back/forward · click]
+    Engine --> Hint[HintEngine]
+    Hint --> Collect["AX/ElementCollector<br/>AXSupport"]
+    Hint --> Overlay[HintOverlay<br/>label badges]
+    Engine --> HUD[HUD]
+
+    Collect -->|AXUIElement tree| Apps[(Frontmost app)]
+    Act -->|synthetic events| Apps
+    Overlay -.drawn over.-> Apps
+```
+
+More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+
 ## Features
 
 - **Hints** (`f`) — label clickable controls and activate one from the keyboard
