@@ -80,6 +80,52 @@ Global pause: **⌃⌥⇧V**, or **Pause Vimium Mac** in the menu.
 
 Enable or disable the frontmost app from the menu bar.
 
+## Architecture
+
+A menu-bar app that sits on a global event tap, decides per keypress whether to act or pass through, and uses the macOS
+Accessibility API to find clickable controls.
+
+```mermaid
+flowchart LR
+    Keys(["Keyboard"]) --> Tap["EventTap<br/>global CGEvent tap"]
+    Tap --> Eng["VimiumEngine<br/>mode: normal · hints · insert"]
+    Focus["FocusWatcher<br/>text field focus"] --> Eng
+    Excl["AppExclusions<br/>per-app on/off"] --> Eng
+    Eng --> KM["KeyMapper<br/>keys → commands"]
+    KM --> Act["Actions<br/>scroll · back/forward · reload"]
+    Eng --> Hint["Hints/HintEngine<br/>labels + selection"]
+    Hint --> AX["AX/ElementCollector<br/>Accessibility tree"]
+    Hint --> Ov["Hints/HintOverlay<br/>badges over controls"]
+    Eng --> HUD["HUD · StatusItemController<br/>menu bar"]
+    Perm["Permissions<br/>Accessibility · Input Monitoring"] --> Tap
+    Act -->|"synthetic events"| Apps(["Frontmost app"])
+    Hint -->|"AXPress / ⌘-click"| Apps
+```
+
+| Path | Purpose |
+|---|---|
+| `macos/VimiumMac/Sources/main.swift`, `AppDelegate.swift` | App startup |
+| `macos/VimiumMac/Sources/VimiumEngine.swift` | Coordinates modes, the event tap, scrolling, hints and exclusions |
+| `macos/VimiumMac/Sources/EventTap.swift` | Global keyboard tap and key swallowing |
+| `macos/VimiumMac/Sources/KeyMapper.swift`, `Actions.swift`, `Types.swift` | Key sequences, counts, and the commands they run |
+| `macos/VimiumMac/Sources/FocusWatcher.swift` | Detects text-field focus to enter insert mode |
+| `macos/VimiumMac/Sources/AppExclusions.swift` | Which apps are on or off by default |
+| `macos/VimiumMac/Sources/Hints/` | Hint generation, selection and the overlay window |
+| `macos/VimiumMac/Sources/AX/` | Accessibility helpers and the clickable-element collector |
+| `macos/VimiumMac/Sources/HUD.swift`, `StatusItemController.swift`, `MainWindowController.swift` | On-screen feedback, menu bar item, settings window |
+| `macos/VimiumMac/Sources/Permissions.swift` | Accessibility and input-monitoring permission checks |
+| `macos/VimiumMac/project.yml`, `macos/Makefile` | XcodeGen spec and build commands |
+| `docs/` | Hint-mode mockups used above |
+
+### Design patterns
+
+- **Mode state machine.** `VimiumEngine` owns normal, hints and insert modes; every key is routed by the current mode.
+- **Event-tap interception.** The tap decides per key whether to swallow it or pass it through, which is what keeps typing in
+  text fields unaffected.
+- **Facade over the Accessibility API.** `AX/` hides AX calls so hint code works with a plain list of elements.
+- **Data-driven app exclusions.** Terminals and editors are off by default through a list, with a per-app toggle in the menu.
+- **Focus-driven mode switching.** `FocusWatcher` flips to insert mode automatically when a text field takes focus.
+
 ## Install from source
 
 Requires **macOS 13+**, **Xcode 15+**, and [XcodeGen](https://github.com/yonaskolb/XcodeGen):
